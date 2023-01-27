@@ -1,0 +1,62 @@
+apiVersion: v1
+kind: Secret
+metadata:
+  name: mongo-Secret
+type: Opaque
+data:
+  username: ZGhhbnlhCg==       #echo -n mongouser | base64  dhanya
+  password: dGVzdDEyMw==          #echo -n mongopassword | base64  test123
+---     
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: mongoconfig
+data: 
+  mongo_url: mongo-service
+---                                     
+apiVersion: apps/v1  
+kind: Deployment
+metadata:
+  name: mongo-deployment
+  labels:               
+    app: mongo-db
+spec:
+  replicas: 1
+  selector:               #identifies set of resources
+    matchLabels:           #match all the pods to this app
+      app: mongo-db
+  template:              #configuration of the pod
+    metadata:
+      labels:             #key/value pair that are attached k8s resources, all pods replicate with same label
+        app: mongo-db
+    spec:
+      containers:
+      - name: mongo-db1
+        image: mongo:5.0  #image from the docker hub (mongo)
+        ports:
+        - containerPort: 27017
+        env:
+        - name: MONGO_INITDB_ROOT_USERNAME
+#          value: myuser       value 
+          valueFrom:
+            secretKeyRef:
+              name: mongo-secret
+              key: mongo-user
+        - name: MONGO_INITDB_ROOT_PASSWORD
+#          value: myuser       value 
+          valueFrom:
+            secretKeyRef:
+              name: mongo-secret
+              key: mongo-password        #whatever mentioned in mongosecret file
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: mongo-service
+spec:
+  selector:          #select the pod to forward the request
+    app: mongo-db
+  ports:
+    - protocol: TCP
+      port: 8080
+      targetPort: 27017

@@ -1,0 +1,1 @@
+{"version":"0.1.0","name":"expense-tracker-react","dependencies":{"@testing-library/jest-dom":{"version":"4.2.4"},"@testing-library/react":{"version":"9.4.1"},"@testing-library/user-event":{"version":"7.2.1"},"axios":{"version":"0.19.2"},"react-dom":{"version":"16.12.0"},"react-scripts":{"version":"5.0.1"},"react":{"version":"16.12.0"}}}
