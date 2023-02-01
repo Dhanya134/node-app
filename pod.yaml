@@ -110,7 +110,7 @@ metadata:
   name: node-service-frontend
   namespace: dhanya-assign
 spec:
-  type: LoadBalancer
+  type: ClusterIP
   ports:
     - name: targetss
       protocol: TCP
