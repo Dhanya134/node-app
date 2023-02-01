@@ -6,7 +6,7 @@ retriever: modernSCM(
   ]
 )
 
-appName = "node-app-backend-dhanya"
+appName = "example"
 
 pipeline {
     agent any
