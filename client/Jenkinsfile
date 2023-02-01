@@ -27,7 +27,7 @@ pipeline {
             sourceImagePath: "amisha-jenkins",
             sourceImageName: "nodeclient",
             sourceImageTag : "latest",
-            toImagePath: "amisha-server",
+            toImagePath: "amisha-jenkins",
             toImageName    : "nodeclient",
             toImageTag     : "${env.BUILD_NUMBER}"
       
