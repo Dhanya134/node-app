@@ -9,4 +9,28 @@ RUN chmod -R 777 /code
 EXPOSE 3000
 CMD ["npm","start"]
 
+#FROM redhat/ubi9
+#WORKDIR /code
+#RUN chmod -R 777 /code
+#COPY package*.json ./
+#RUN yum install -y nodejs 
+#RUN npm install
+#COPY . .
+#RUN chmod -R 777 /code
+#EXPOSE 3000
+#CMD ["npm","start"]
 
+#FROM node:12.18.1-slim AS builder
+# WORKDIR /app
+# RUN chmod -R 777 /app
+# COPY package*.json ./
+# RUN npm config set unsafe-perm true
+# RUN npm install --force
+# COPY . .
+# RUN chown -R node /app/node_modules
+# USER node
+# FROM builder as expose
+# COPY --from=builder /app /app
+# WORKDIR /app
+# EXPOSE 3000
+# CMD ["npm","start"]
