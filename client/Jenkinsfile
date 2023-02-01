@@ -24,10 +24,10 @@ pipeline {
       stage("Tag image") {
        steps{
     tagImage([
-            sourceImagePath: "amisha-jenkins",
+            sourceImagePath: "dhanya-jenkins",
             sourceImageName: "nodeclient",
             sourceImageTag : "latest",
-            toImagePath: "amisha-jenkins",
+            toImagePath: "dhanya-jenkins",
             toImageName    : "nodeclient",
             toImageTag     : "${env.BUILD_NUMBER}"
       
