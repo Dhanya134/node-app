@@ -41,7 +41,7 @@ spec:
           - name: PORT
             value: '5000'
           - name: BASE_URL
-            value: http://node-route-back-dhanya-assign.edge-dev-410-915b3b336cabec458a7c7ec2aa7c625f-0000.us-south.containers.appdomain.cloud
+            value: http://node-route-dhanya-jenkins.edge-dev-410-915b3b336cabec458a7c7ec2aa7c625f-0000.us-south.containers.appdomain.cloud
 
 ---
 #backend service
@@ -74,7 +74,7 @@ spec:
     name: node-service-backend
     weight: 100
   port:
-    targetPort: backend
+    targetPort: 5000
 
 
 
