@@ -38,7 +38,7 @@ pipeline {
         steps {
             script {
                 openshift.withCluster() {
-                    openshift.withProject("$PROJECT_NAME") {
+                    openshift.withProject() {
                         echo "Using project: ${openshift.project()}"
                          sh 'sh -x $WORKSPACE/deploy.sh'
                     }
