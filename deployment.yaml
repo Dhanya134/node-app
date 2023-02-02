@@ -73,7 +73,7 @@ spec:
     name: node-service-backend
     weight: 100
   port:
-    targetPort: backend
+    targetPort: 5000
 
            
           
