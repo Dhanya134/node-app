@@ -27,15 +27,15 @@ spec:
           - name: DB_USERNAME
             valueFrom: 
               secretKeyRef:
-                name: mongo-secret
+                name: mongodb-secret
                 key: username
           - name: DB_PASSWORD
             valueFrom:
               secretKeyRef:
-                name: mongo-secret
+                name: mongodb-secret
                 key: password
           - name: DB_URL
-            value: 'mongo-service.dhanya-assign.svc.cluster.local:27017/data'
+            value: 'mongo-service.dhanya-jenkins.svc.cluster.local:27017/data'
           - name: NODE_ENV
             value: production
           - name: PORT
