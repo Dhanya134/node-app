@@ -3,7 +3,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: node-frontend
-  namespace:dhanya-jenkins
+  namespace: dhanya-jenkins
   labels:
     app: node-app
 spec:
