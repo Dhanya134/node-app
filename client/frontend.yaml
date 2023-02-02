@@ -56,4 +56,4 @@ spec:
     name: node-service-frontend
     
   port:
-    targetPort: targetss 
+    targetPort: 3000 
