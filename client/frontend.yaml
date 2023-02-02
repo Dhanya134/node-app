@@ -18,7 +18,7 @@ spec:
     spec:  
        containers:  
         - name: frontend-container 
-          image: dhanyashree/nodeclient:h2
+          image:  image-registry.openshift-image-registry.svc:5000/dhanya-jenkins/nodeclient:latest
           imagePullPolicy: Always
           ports:
           - containerPort: 3000
