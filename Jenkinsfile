@@ -40,7 +40,8 @@ pipeline {
                 openshift.withCluster() {
                     openshift.withProject("$PROJECT_NAME") {
                         echo "Using project: ${openshift.project()}"
-                         sh 'sh -x $WORKSPACE/deploy.sh'
+                         sh 'oc project project_name'
+                         sh 'oc apply -f pod.yaml'
                     }
                 }
             }
