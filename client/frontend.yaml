@@ -1,4 +1,3 @@
----
 #frontend  
 apiVersion: apps/v1
 kind: Deployment
@@ -34,7 +33,7 @@ metadata:
   name: node-service-frontend
   namespace: dhanya-assign
 spec:
-  type: ClusterIP
+  type: LoadBalancer
   ports:
     - name: targetss
       protocol: TCP
@@ -55,7 +54,6 @@ spec:
   to:
     kind: Service
     name: node-service-frontend
-    weight: 100
+    
   port:
-    targetPort: targetss            
-          
+    targetPort: targetss 
