@@ -6,7 +6,7 @@ retriever: modernSCM(
   ]
 )
 
-appName = "node-back-dhanya"
+appName = "node-app-backend"
 
 pipeline {
     agent any
@@ -25,10 +25,10 @@ pipeline {
        steps{
     tagImage([
             sourceImagePath: "dhanya-jenkins",
-            sourceImageName: "nodeserver",
+            sourceImageName: "node-server",
             sourceImageTag : "latest",
             toImagePath: "dhanya-jenkins",
-            toImageName    : "nodeserver",
+            toImageName    : "node-server",
             toImageTag     : "${env.BUILD_NUMBER}"
       
     ])
