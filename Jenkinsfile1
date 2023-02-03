@@ -1,0 +1,70 @@
+library identifier: "pipeline-library@v1.5",
+retriever: modernSCM(
+  [
+    $class: "GitSCMSource",
+    remote: "https://github.com/redhat-cop/pipeline-library.git" 
+  ]
+)
+
+appName = "node-app-backend"
+configname= "node-app-frontend"
+
+pipeline {
+    agent any
+    stages {
+        stage("Checkout") {
+            steps {
+                checkout scm
+            }
+        }
+        stage("Docker Build") {
+            steps {
+                binaryBuild(buildConfigName: appName, buildFromPath: ".")
+            }
+        }
+        stage("Docker Build front") {
+            steps {
+                binaryBuild(buildConfigName: configname, buildFromPath: "./client")
+            }
+        }
+      stage("Tag image") {
+       steps{
+    tagImage([
+            sourceImagePath: "dhanya-jenkins",
+            sourceImageName: "node-server",
+            sourceImageTag : "latest",
+            toImagePath: "dhanya-jenkins",
+            toImageName    : "node-server",
+            toImageTag     : "${env.BUILD_NUMBER}"
+      
+    ])
+       }
+}
+stage("Tag image front") {
+       steps{
+    tagImage([
+            sourceImagePath: "dhanya-jenkins",
+            sourceImageName: "node-client",
+            sourceImageTag : "latest",
+            toImagePath: "dhanya-jenkins",
+            toImageName    : "node-client",
+            toImageTag     : "${env.BUILD_NUMBER}"
+      
+    ])
+       }
+}
+      stage('deploy') {
+        steps {
+            script {
+                openshift.withCluster() {
+                    openshift.withProject("$PROJECT_NAME") {
+                        echo "Using project: ${openshift.project()}"
+                         sh 'oc project "$PROJECT_NAME" '
+                         sh 'oc apply -f deployment.yaml'
+                    }
+                }
+            }
+    }
+ }
+   }
+}
