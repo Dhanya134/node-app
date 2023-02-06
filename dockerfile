@@ -22,15 +22,21 @@ CMD ["npm","run","server"]
 #EXPOSE 5000
 #CMD ["npm","run","server"]
 
-# FROM node:12.18.1-slim AS builder
-# WORKDIR /app
-# RUN chmod -R 777 /app
-# COPY package*.json ./
-# RUN npm install 
-# COPY . .
+# Stage 1 - Build dependencies
+#FROM node:12.18.1-alpine as build
+#WORKDIR /app
+#COPY package*.json ./ 
+#RUN npm install 
 
-# FROM builder as expose
-# COPY --from=builder /app /app
-# WORKDIR /app
-# EXPOSE 3000
-# CMD ["npm","run","server"]
+# Stage 2 - Build the application
+#FROM build as application
+#WORKDIR /app
+#COPY . .
+
+# Stage 3 - Run
+#FROM node:12.18.1-alpine
+#WORKDIR /app
+#COPY --from=application /app .
+#RUN chmod -R 777 /app
+#EXPOSE 5000
+#CMD ["npm","run","server"]
