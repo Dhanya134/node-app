@@ -22,15 +22,15 @@ CMD ["npm","start"]*/
 
 # Stage 1 - Build
  FROM node:12.18.1-alpine as build
- WORKDIR /app 
+ WORKDIR /code
  COPY package*.json ./
  RUN npm install --no-cache
  COPY . .
 
 # Stage 2 - Run
  FROM node:12.18.1-alpine
- WORKDIR /app 
- COPY --from=build /app .
- RUN chmod -R 777 /app
+ WORKDIR /code
+ COPY --from=build /code .
+ RUN chmod -R 777 /code
  EXPOSE 3000
  CMD ["npm","start"]
