@@ -1,4 +1,4 @@
-/*FROM node:12.18.1-slim
+FROM node:12.18.1-slim
 #RUN adduser --disabled-password karanth
 #USER karanth
 WORKDIR /code
@@ -7,7 +7,7 @@ RUN npm install
 COPY . .
 RUN chmod -R 777 /code
 EXPOSE 3000
-CMD ["npm","start"]*/
+CMD ["npm","start"]
 
 #FROM redhat/ubi9
 #WORKDIR /code
@@ -20,7 +20,7 @@ CMD ["npm","start"]*/
 #EXPOSE 3000
 #CMD ["npm","start"]
 
-# Stage 1 - Build
+/*# Stage 1 - Build
  FROM node:12.18.1-alpine as build
  WORKDIR /code
  COPY package*.json ./
@@ -33,4 +33,4 @@ CMD ["npm","start"]*/
  COPY --from=build /code .
  RUN chmod -R 777 /code
  EXPOSE 3000
- CMD ["npm","start"]
+ CMD ["npm","start"]*/
