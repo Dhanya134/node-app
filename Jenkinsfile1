@@ -38,7 +38,7 @@ pipeline {
             toImageTag     : "${env.BUILD_NUMBER}"
       
     ])
-       }
+      }
 }
 stage("Tag image front") {
        steps{
