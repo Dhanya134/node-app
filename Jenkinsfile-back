@@ -6,7 +6,7 @@ retriever: modernSCM(
   ]
 )
 
-appName = "node-app-backend"
+def appName = "node-app-backend"
 
 pipeline {
     agent any
@@ -17,24 +17,35 @@ pipeline {
             }
         }
         stage("Docker Build") {
+            when {
+                changeset "config/**", changeset "controllers/**", changeset "models/**", changeset "routes/**"
+                changeset "dockerfile", changeset "package.json", changeset "package-lock.json"
+            }
             steps {
                 binaryBuild(buildConfigName: appName, buildFromPath: ".")
             }
         }
-      stage("Tag image") {
-       steps{
-    tagImage([
-            sourceImagePath: "dhanya-jenkins",
-            sourceImageName: "node-server",
-            sourceImageTag : "latest",
-            toImagePath: "dhanya-jenkins",
-            toImageName    : "node-server",
-            toImageTag     : "${env.BUILD_NUMBER}"
-      
-    ])
-       }
+        stage("Tag image") {
+            when {
+                expression {
+                    return currentBuild.result == null || currentBuild.result == 'SUCCESS'
+                }
+            }
+            steps {
+                tagImage([
+                    sourceImagePath: "dhanya-jenkins",
+                    sourceImageName: "node-server",
+                    sourceImageTag : "latest",
+                    toImagePath: "dhanya-jenkins",
+                    toImageName    : "node-server",
+                    toImageTag     : "${env.BUILD_NUMBER}"
+                ])
+            }
+        }
+    }
 }
-      stage('deploy') {
+
+    /*  stage('deploy') {
         steps {
             script {
                 openshift.withCluster() {
@@ -48,4 +59,4 @@ pipeline {
     }
  }
    }
-}
+}*/
