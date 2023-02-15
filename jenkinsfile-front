@@ -25,22 +25,25 @@ pipeline {
             }
         }
         stage("Tag image") {
-            when {
-                expression {
-                    return currentBuild.result == null || currentBuild.result == 'SUCCESS'
-                }
+          when {
+            allOf {
+               expression {
+                currentBuild.result == null || currentBuild.result == 'SUCCESS'
             }
-            steps {
-                tagImage([
-                    sourceImagePath: "dhanya-jenkins",
-                    sourceImageName: "node-client",
-                    sourceImageTag : "latest",
-                    toImagePath: "dhanya-jenkins",
-                    toImageName    : "node-client",
-                    toImageTag     : "${env.BUILD_NUMBER}"
-                ])
-            }
+            changeset "client/**"
+          }
         }
+        steps {
+        tagImage([
+            sourceImagePath: "dhanya-jenkins",
+            sourceImageName: "node-client",
+            sourceImageTag : "latest",
+            toImagePath: "dhanya-jenkins",
+            toImageName    : "node-client",
+            toImageTag     : "${env.BUILD_NUMBER}"
+        ])
     }
+}
+}
 }
 
