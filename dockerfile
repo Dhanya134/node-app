@@ -10,7 +10,6 @@ EXPOSE 5000
 CMD ["npm","run","server"]
 
 
-
 #taking ubi as base image
 #FROM redhat/ubi8
 #WORKDIR /app 
