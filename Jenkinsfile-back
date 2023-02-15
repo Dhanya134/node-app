@@ -27,9 +27,13 @@ pipeline {
         }
         stage("Tag image") {
             when {
+            allOf{
                 expression {
                     return currentBuild.result == null || currentBuild.result == 'SUCCESS'
                 }
+                changeset "config/**", changeset "controllers/**", changeset "models/**", changeset "routes/**"
+                changeset "dockerfile", changeset "package.json", changeset "package-lock.json"
+            }
             }
             steps {
                 tagImage([
@@ -42,21 +46,21 @@ pipeline {
                 ])
             }
         }
+        stage("Trigger Deployment Update Pipeline front"){
+     when {
+    allOf {
+      expression {
+        currentBuild.result == null || currentBuild.result == 'SUCCESS'
+      }
+      changeset "config/**", changeset "controllers/**", changeset "models/**", changeset "routes/**"
+      changeset "dockerfile", changeset "package.json", changeset "package-lock.json"
+    }
+  }
+        steps{
+          build job:'node-update-deployment-back' , parameters: [string(name: 'DOCKERTAG',value: env.BUILD_NUMBER)]
+        }
+      }
     }
 }
 
-    /*  stage('deploy') {
-        steps {
-            script {
-                openshift.withCluster() {
-                    openshift.withProject("$PROJECT_NAME") {
-                        echo "Using project: ${openshift.project()}"
-                         sh 'oc project "$PROJECT_NAME" '
-                         sh 'oc apply -f pod.yaml'
-                    }
-                }
-            }
-    }
- }
-   }
-}*/
+   
