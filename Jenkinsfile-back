@@ -17,9 +17,16 @@ pipeline {
             }
         }
         stage("Docker Build") {
-            when {
-                changeset "config/**", changeset "controllers/**", changeset "models/**", changeset "routes/**"
-                changeset "dockerfile", changeset "package.json", changeset "package-lock.json"
+           when {
+                allOf {
+                    changeset "config/**"
+                    changeset "controllers/**"
+                    changeset "models/**"
+                    changeset "routes/**"
+                    changeset "dockerfile"
+                    changeset "package.json"
+                    changeset "package-lock.json"
+                }
             }
             steps {
                 binaryBuild(buildConfigName: appName, buildFromPath: ".")
