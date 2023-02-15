@@ -20,7 +20,6 @@ const options = {
 }
 app.use(cors(options));
 
-
 if(process.env.NODE_ENV === 'development') {
   app.use(morgan('dev'));
 }
