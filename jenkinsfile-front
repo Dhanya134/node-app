@@ -17,30 +17,30 @@ pipeline {
             }
         }
         stage("Docker Build") {
-        when {
+            when {
                 changeset "client/**"
             }
             steps {
                 binaryBuild(buildConfigName: appName, buildFromPath: "./client")
             }
         }
-      stage("Tag image") {
-      when {
+        stage("Tag image") {
+            when {
                 expression {
                     return currentBuild.result == null || currentBuild.result == 'SUCCESS'
                 }
             }
-       steps{
-    tagImage([
-            sourceImagePath: "dhanya-jenkins",
-            sourceImageName: "node-client",
-            sourceImageTag : "latest",
-            toImagePath: "dhanya-jenkins",
-            toImageName    : "node-client",
-            toImageTag     : "${env.BUILD_NUMBER}"
-      
-    ])
-       }
+            steps {
+                tagImage([
+                    sourceImagePath: "dhanya-jenkins",
+                    sourceImageName: "node-client",
+                    sourceImageTag : "latest",
+                    toImagePath: "dhanya-jenkins",
+                    toImageName    : "node-client",
+                    toImageTag     : "${env.BUILD_NUMBER}"
+                ])
+            }
+        }
+    }
 }
-}
-}
+
