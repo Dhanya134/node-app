@@ -9,6 +9,7 @@ RUN chmod -R 777 /code
 EXPOSE 3000
 CMD ["npm","start"]
 
+
 #FROM redhat/ubi9
 #WORKDIR /code
 #RUN chmod -R 777 /code
