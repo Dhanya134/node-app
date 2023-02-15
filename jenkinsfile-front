@@ -6,7 +6,7 @@ retriever: modernSCM(
   ]
 )
 
-appName = "node-app-backend"
+appName = "node-app-frontend"
 
 pipeline {
     agent any
@@ -21,7 +21,7 @@ pipeline {
                 changeset "client/**"
             }
             steps {
-                binaryBuild(buildConfigName: appName, buildFromPath: ".")
+                binaryBuild(buildConfigName: appName, buildFromPath: "./client")
             }
         }
       stage("Tag image") {
@@ -33,12 +33,13 @@ pipeline {
        steps{
     tagImage([
             sourceImagePath: "dhanya-jenkins",
-            sourceImageName: "nodeserver",
+            sourceImageName: "node-client",
             sourceImageTag : "latest",
             toImagePath: "dhanya-jenkins",
-            toImageName    : "nodeserver",
+            toImageName    : "node-client",
             toImageTag     : "${env.BUILD_NUMBER}"
       
     ])
        }
+}
 }
