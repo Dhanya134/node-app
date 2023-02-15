@@ -18,20 +18,25 @@ pipeline {
         }
         stage("Docker Build") {
         when {
-                changeset "client"
+                changeset "client/**"
             }
             steps {
                 binaryBuild(buildConfigName: appName, buildFromPath: ".")
             }
         }
       stage("Tag image") {
+      when {
+                expression {
+                    return currentBuild.result == null || currentBuild.result == 'SUCCESS'
+                }
+            }
        steps{
     tagImage([
-            sourceImagePath: "amisha-jenkins",
+            sourceImagePath: "dhanya-jenkins",
             sourceImageName: "nodeserver",
             sourceImageTag : "latest",
-            toImagePath: "amisha-server",
-            toImageName    : "nodeclient",
+            toImagePath: "dhanya-jenkins",
+            toImageName    : "nodeserver",
             toImageTag     : "${env.BUILD_NUMBER}"
       
     ])
