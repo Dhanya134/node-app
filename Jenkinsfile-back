@@ -70,7 +70,7 @@ pipeline {
                     changeset "routes/**"
                     changeset "dockerfile"
                     changeset "package.json"
-                    changeset "package-lock.json""
+                    changeset "package-lock.json"
     }
   }
         steps{
