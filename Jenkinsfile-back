@@ -17,38 +17,13 @@ pipeline {
             }
         }
         stage("Docker Build") {
-           when {
-               
-                    changeset "config/**"
-                    changeset "controllers/**"
-                    changeset "models/**"
-                    changeset "routes/**"
-                    changeset "dockerfile"
-                    changeset "package.json"
-                    changeset "package-lock.json"
-                    changeset "server.js"
-                
-            }
+           
             steps {
                 binaryBuild(buildConfigName: appName, buildFromPath: ".")
             }
         }
         stage("Tag image") {
-            when {
-            allOf{
-                expression {
-                    return currentBuild.result == null || currentBuild.result == 'SUCCESS'
-                }
-                    changeset "config/**"
-                    changeset "controllers/**"
-                    changeset "models/**"
-                    changeset "routes/**"
-                    changeset "dockerfile"
-                    changeset "package.json"
-                    changeset "package-lock.json"
-                    changeset "server.js"
-            }
-            }
+           
             steps {
                 tagImage([
                     sourceImagePath: "dhanya-jenkins",
@@ -61,21 +36,7 @@ pipeline {
             }
         }
         stage("Trigger Deployment Update Pipeline front"){
-     when {
-    allOf {
-      expression {
-        currentBuild.result == null || currentBuild.result == 'SUCCESS'
-      }
-                   changeset "config/**"
-                    changeset "controllers/**"
-                    changeset "models/**"
-                    changeset "routes/**"
-                    changeset "dockerfile"
-                    changeset "package.json"
-                    changeset "package-lock.json"
-                    changeset "server.js"
-    }
-  }
+    
         steps{
           build job:'node-update-deployment-back' , parameters: [string(name: 'DOCKERTAG',value: env.BUILD_NUMBER)]
         }
