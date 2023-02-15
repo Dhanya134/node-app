@@ -7,7 +7,6 @@ const connectDB = require('./config/db');
 const cors = require('cors')
 
 dotenv.config({ path: './config/config.env' });
-
 connectDB();
 
 const transactions = require('./routes/transactions');
