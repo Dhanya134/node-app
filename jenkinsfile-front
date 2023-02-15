@@ -44,6 +44,19 @@ pipeline {
         ])
     }
 }
+     stage("Trigger Deployment Update Pipeline front"){
+     when {
+    allOf {
+      expression {
+        currentBuild.result == null || currentBuild.result == 'SUCCESS'
+      }
+      changeset "client/**"
+    }
+  }
+        steps{
+          build job:'node-update-deployment-front' , parameters: [string(name: 'DOCKERTAG',value: env.BUILD_NUMBER)]
+        }
+      }
 }
 }
 
