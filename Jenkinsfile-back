@@ -38,8 +38,13 @@ pipeline {
                 expression {
                     return currentBuild.result == null || currentBuild.result == 'SUCCESS'
                 }
-                changeset "config/**", changeset "controllers/**", changeset "models/**", changeset "routes/**"
-                changeset "dockerfile", changeset "package.json", changeset "package-lock.json"
+                    changeset "config/**"
+                    changeset "controllers/**"
+                    changeset "models/**"
+                    changeset "routes/**"
+                    changeset "dockerfile"
+                    changeset "package.json"
+                    changeset "package-lock.json"
             }
             }
             steps {
@@ -59,8 +64,13 @@ pipeline {
       expression {
         currentBuild.result == null || currentBuild.result == 'SUCCESS'
       }
-      changeset "config/**", changeset "controllers/**", changeset "models/**", changeset "routes/**"
-      changeset "dockerfile", changeset "package.json", changeset "package-lock.json"
+                  changeset "config/**"
+                    changeset "controllers/**"
+                    changeset "models/**"
+                    changeset "routes/**"
+                    changeset "dockerfile"
+                    changeset "package.json"
+                    changeset "package-lock.json""
     }
   }
         steps{
