@@ -26,6 +26,7 @@ pipeline {
                     changeset "dockerfile"
                     changeset "package.json"
                     changeset "package-lock.json"
+                    changeset "server.js"
                 }
             }
             steps {
@@ -45,6 +46,7 @@ pipeline {
                     changeset "dockerfile"
                     changeset "package.json"
                     changeset "package-lock.json"
+                    changeset "server.js"
             }
             }
             steps {
@@ -64,13 +66,14 @@ pipeline {
       expression {
         currentBuild.result == null || currentBuild.result == 'SUCCESS'
       }
-                  changeset "config/**"
+                   changeset "config/**"
                     changeset "controllers/**"
                     changeset "models/**"
                     changeset "routes/**"
                     changeset "dockerfile"
                     changeset "package.json"
                     changeset "package-lock.json"
+                    changeset "server.js"
     }
   }
         steps{
