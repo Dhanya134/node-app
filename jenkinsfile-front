@@ -9,54 +9,54 @@ retriever: modernSCM(
 appName = "node-app-frontend"
 
 pipeline {
-    agent any
-    stages {
-        stage("Checkout") {
-            steps {
-                checkout scm
+  agent any
+  stages {
+    stage('Check for changes in folder') {
+      steps {
+        script {
+          def changes = currentBuild.changeSets
+          for (changeSet in changes) {
+            for (path in changeSet.affectedPaths) {
+              if (path.startsWith('client/')) {
+                echo "Changes detected in client/"
+                
+                stage("Checkout") {
+                  steps {
+                    checkout scm
+                  }
+                }
+                
+                stage("Docker Build") {
+                  steps {
+                    binaryBuild(buildConfigName: appName, buildFromPath: "./client")
+                  }
+                }
+                
+                stage("Tag image") {
+                  steps {
+                    tagImage([
+                      sourceImagePath: "dhanya-jenkins",
+                      sourceImageName: "node-client",
+                      sourceImageTag : "latest",
+                      toImagePath: "dhanya-jenkins",
+                      toImageName    : "node-client",
+                      toImageTag     : "${env.BUILD_NUMBER}"
+                    ])
+                  }
+                }
+                
+                stage("Trigger Deployment Update Pipeline front") {
+                  steps {
+                    build job:'node-update-deployment-front' , parameters: [string(name: 'DOCKERTAG',value: env.BUILD_NUMBER)]
+                  }
+                }
+                
+                break
+              }
             }
-        }
-        stage("Docker Build") {
-            when {
-                changeset "client/**"
-            }
-            steps {
-                binaryBuild(buildConfigName: appName, buildFromPath: "./client")
-            }
-        }
-        stage("Tag image") {
-          when {
-            allOf {
-               expression {
-                currentBuild.result == null || currentBuild.result == 'SUCCESS'
-            }
-            changeset "client/**"
           }
         }
-        steps {
-        tagImage([
-            sourceImagePath: "dhanya-jenkins",
-            sourceImageName: "node-client",
-            sourceImageTag : "latest",
-            toImagePath: "dhanya-jenkins",
-            toImageName    : "node-client",
-            toImageTag     : "${env.BUILD_NUMBER}"
-        ])
-    }
-}
-     stage("Trigger Deployment Update Pipeline front"){
-     when {
-    allOf {
-      expression {
-        currentBuild.result == null || currentBuild.result == 'SUCCESS'
       }
-      changeset "client/**"
     }
   }
-        steps{
-          build job:'node-update-deployment-front' , parameters: [string(name: 'DOCKERTAG',value: env.BUILD_NUMBER)]
-        }
-      }
 }
-}
-
