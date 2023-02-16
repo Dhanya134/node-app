@@ -10,16 +10,7 @@ appName = "node-app-frontend"
 
 pipeline {
   agent any
-  stages {
-    stage('Check for changes in folder') {
-      steps {
-        script {
-          def changes = currentBuild.changeSets
-          for (changeSet in changes) {
-            for (path in changeSet.affectedPaths) {
-              if (path.startsWith('client/')) {
-                echo "Changes detected in client/"
-                
+  stages {      
                 stage("Checkout") {
                   steps {
                     checkout scm
@@ -51,12 +42,6 @@ pipeline {
                   }
                 }
                 
-                break
-              }
-            }
-          }
-        }
-      }
-    }
+                
   }
 }
