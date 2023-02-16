@@ -27,10 +27,10 @@ pipeline {
                   steps {
                     tagImage([
                       sourceImagePath: "dhanya-jenkins",
-                      sourceImageName: "node-client",
+                      sourceImageName: "node-gitclient",
                       sourceImageTag : "latest",
                       toImagePath: "dhanya-jenkins",
-                      toImageName    : "node-client",
+                      toImageName    : "node-gitclient",
                       toImageTag     : "${env.BUILD_NUMBER}"
                     ])
                   }
