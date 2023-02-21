@@ -40,7 +40,7 @@ pipeline {
                   steps {
                     build job:'node-deployment-front' , parameters: [string(name: 'DOCKERTAG',value: env.BUILD_NUMBER)]
                   }
-                }
+               }
                 
                 
   }
