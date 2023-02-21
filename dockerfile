@@ -21,6 +21,7 @@ CMD ["npm","run","server"]
 #EXPOSE 5000
 #CMD ["npm","run","server"]
 
+
 # Stage 1 - Build dependencies
 #FROM node:12.18.1-alpine as build
 #WORKDIR /app
